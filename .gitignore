@@ -1,6 +1,5 @@
 *.orig
 *.o
 dwm
-dwmc
 config.def.h
 patches/todo/*
