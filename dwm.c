@@ -401,7 +401,7 @@ applyrules(Client *c)
 			c->iscentered = r->iscentered;
 			c->isfloating = r->isfloating;
 			c->tags |= r->tags;
-			if ((r->tags & SPTAGMASK) && r->isfloating) { // SSS fakefs
+			if ((r->tags & SPTAGMASK) && r->isfloating) {
 				c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
 				c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
 			}
@@ -1511,42 +1511,42 @@ killclient(const Arg *arg)
 void
 loadxrdb()
 {
-  Display *display;
-  char * resm;
-  XrmDatabase xrdb;
-  char *type;
-  XrmValue value;
+        Display *display;
+        char * resm;
+        XrmDatabase xrdb;
+        char *type;
+        XrmValue value;
 
-  display = XOpenDisplay(NULL);
+        display = XOpenDisplay(NULL);
 
-  if (display != NULL) {
-    resm = XResourceManagerString(display);
+        if (display != NULL) {
+                resm = XResourceManagerString(display);
 
-    if (resm != NULL) {
-      xrdb = XrmGetStringDatabase(resm);
+                if (resm != NULL) {
+                        xrdb = XrmGetStringDatabase(resm);
 
-      if (xrdb != NULL) {
-        XRDB_LOAD_COLOR("color0", color0);
-        XRDB_LOAD_COLOR("color1", color1);
-        XRDB_LOAD_COLOR("color2", color2);
-        XRDB_LOAD_COLOR("color3", color3);
-        XRDB_LOAD_COLOR("color4", color4);
-        XRDB_LOAD_COLOR("color5", color5);
-        XRDB_LOAD_COLOR("color6", color6);
-        XRDB_LOAD_COLOR("color7", color7);
-        XRDB_LOAD_COLOR("color8", color8);
-        XRDB_LOAD_COLOR("color9", color9);
-        XRDB_LOAD_COLOR("color10", color10);
-        XRDB_LOAD_COLOR("color11", color11);
-        XRDB_LOAD_COLOR("color12", color12);
-        XRDB_LOAD_COLOR("color13", color13);
-        XRDB_LOAD_COLOR("color14", color14);
-        XRDB_LOAD_COLOR("color15", color15);
-      }
-    }
-  }
+                        if (xrdb != NULL) {
+                                XRDB_LOAD_COLOR("color0", color0);
+                                XRDB_LOAD_COLOR("color1", color1);
+                                XRDB_LOAD_COLOR("color2", color2);
+                                XRDB_LOAD_COLOR("color3", color3);
+                                XRDB_LOAD_COLOR("color4", color4);
+                                XRDB_LOAD_COLOR("color5", color5);
+                                XRDB_LOAD_COLOR("color6", color6);
+                                XRDB_LOAD_COLOR("color7", color7);
+                                XRDB_LOAD_COLOR("color8", color8);
+                                XRDB_LOAD_COLOR("color9", color9);
+                                XRDB_LOAD_COLOR("color10", color10);
+                                XRDB_LOAD_COLOR("color11", color11);
+                                XRDB_LOAD_COLOR("color12", color12);
+                                XRDB_LOAD_COLOR("color13", color13);
+                                XRDB_LOAD_COLOR("color14", color14);
+                                XRDB_LOAD_COLOR("color15", color15);
+                        }
+                }
+        }
 
-  XCloseDisplay(display);
+        XCloseDisplay(display);
 }
 
 void
@@ -2296,6 +2296,10 @@ showhide(Client *c)
 	if (!c)
 		return;
 	if (ISVISIBLE(c)) {
+		if ((c->tags & SPTAGMASK) && c->isfloating) {
+			c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
+			c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
+		}
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
 
