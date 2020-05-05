@@ -201,8 +201,6 @@ static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interac
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
-static void attachBelow(Client *c);
-static void toggleAttachBelow();
 static void attachstack(Client *c);
 static int fake_signal(void);
 static void buttonpress(XEvent *e);
@@ -510,26 +508,6 @@ attach(Client *c)
 {
 	c->next = c->mon->clients;
 	c->mon->clients = c;
-}
-void
-attachBelow(Client *c)
-{
-	/* If there is nothing on the monitor or the selected client is floating, attach as normal */
-	if(c->mon->sel == NULL || c->mon->sel->isfloating) {
-		attach(c);
-		return;
-	}
-
-	/* Set the new client's next property to the same as the currently selected clients next */
-	c->next = c->mon->sel->next;
-	/* Set the currently selected clients next property to the new client */
-	c->mon->sel->next = c;
-
-}
-
-void toggleAttachBelow()
-{
-	attachbelow = !attachbelow;
 }
 
 void
@@ -1632,10 +1610,7 @@ manage(Window w, XWindowAttributes *wa)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
-	if( attachbelow )
-		attachBelow(c);
-	else
-		attach(c);
+	attach(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
 		(unsigned char *) &(c->win), 1);
@@ -1783,7 +1758,7 @@ moveresize(const Arg *arg)
 {
 	XEvent ev;
 	Monitor *m = selmon;
-	
+
         if(!(m->sel && arg && arg->v))
                 return;
         if(m->lt[m->sellt]->arrange && !m->sel->isfloating)
@@ -1792,7 +1767,7 @@ moveresize(const Arg *arg)
 	resize(m->sel, m->sel->x + ((int *)arg->v)[0],
 m->sel->y + ((int *)arg->v)[1], m->sel->w + ((int *)arg->v)[2], m->sel->h + ((int *)arg->v)[3], True);
 
-	
+
 	while(XCheckMaskEvent(dpy, EnterWindowMask, &ev));
 }
 
@@ -2069,10 +2044,7 @@ sendmon(Client *c, Monitor *m)
 	detachstack(c);
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	if( attachbelow )
-		attachBelow(c);
-	else
-		attach(c);
+	attach(c);
 	attachstack(c);
 	focus(NULL);
 	arrange(NULL);
@@ -2743,10 +2715,7 @@ updategeom(void)
 					m->clients = c->next;
 					detachstack(c);
 					c->mon = mons;
-					if( attachbelow )
-						attachBelow(c);
-					else
-						attach(c);
+					attach(c);
 					attachstack(c);
 				}
 				if (m == selmon)
@@ -3256,10 +3225,10 @@ centeredmaster(Monitor *m)
 {
 	unsigned int i, n, h, mw, mx, my, oty, ety, tw;
 	Client *c;
-	
+
 	/* count number of clients in the selected monitor */
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	
+
 	if (n == 0)
 		return;
 	if(n == 1){
@@ -3351,7 +3320,7 @@ centeredfloatingmaster(Monitor *m)
 		mxo = 0;
 		my = myo = 0;
 	}
-	
+
 	tx = m->gappx;
 	for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 	if (i < m->nmaster) {

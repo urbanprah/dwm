@@ -75,7 +75,6 @@ static const Rule rules[] = {
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static int attachbelow       = 0;    /* 1 means attach after the currently active window */
 
 #include "fibonacci.c"
 #include "gaplessgrid.c"
@@ -146,7 +145,6 @@ static Key keys[] = {
         { MODKEY|ControlMask|ShiftMask, XK_k,      moveresize,     {.v = (int []){ 0, 0, 0, -50 }}},
         { MODKEY|ControlMask|ShiftMask, XK_l,      moveresize,     {.v = (int []){ 0, 0, 50, 0 }}},
         { MODKEY|ControlMask|ShiftMask, XK_h,      moveresize,     {.v = (int []){ 0, 0, -50, 0 }}},
-        { MODKEY|ShiftMask,             XK_b,      toggleAttachBelow, {0} },
         { MODKEY,                       XK_minus,  setgaps,        {.i = -5 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +5 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
