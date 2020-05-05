@@ -18,10 +18,10 @@ TODO
 * [ ] [config][shortcuts] sxhkd -> config.h
 * [ ] [feature][shortcut] force kill client
 * [ ] [improvement][fakefs] merge isfullscreen, ignorefakefs
-* [ ] [issue][fakefs] window wont fill the screen
-* [ ] [issue][fakefs] cant shift focus using j,k
 * [ ] [issue][Steam] borderpx != 1 causes weird window movement
 * [ ] [feature][scratchpad] multiple scratchpads
+* [x] [issue][fakefs] window wont fill the screen
+* [x] [issue][fakefs] cant shift focus using j,k
 * [x] [issue][statuscmd] strip status2d tags from stext
 * [x] [improvement][fakefullscreen] no border with 1 client
 * [x] [issue][systray] icon artifacting
