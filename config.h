@@ -64,6 +64,9 @@ static const Rule rules[] = {
 	{ "jetbrains-idea", "jetbrains-idea",    "win0",                     0,          0,             1,             1,           -1 },
 	{ "Microsoft Teams - Preview",  NULL, "Microsoft Teams Notification",0,          0,             0,             1,           -1 },
 	{ "mpv",                        NULL,      NULL,                     0,          1,             0,             0,           -1 },
+	{ NULL,                         "sptodo",  NULL,                     SPTAG(0),   1,             1,             1,           -1 },
+	{ NULL,                         "spcalc",  NULL,                     SPTAG(1),   1,             1,             1,           -1 },
+	{ NULL,                      "spncmpcpp",  NULL,                     SPTAG(2),   1,             1,             1,           -1 },
 };
 
 /* layout(s) */
@@ -88,6 +91,11 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
@@ -104,11 +112,24 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color0, "-nf", color7, "-sb", color1, "-sf", color7, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
+const char *spcmd1[] = {"st", "-n", "sptodo",    "-g", "70x30",  "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL };
+const char *spcmd2[] = {"st", "-n", "spcalc",    "-g", "50x20",  "-e", "bc", "-lq", NULL };
+const char *spcmd3[] = {"st", "-n", "spncmpcpp", "-g", "100x30", "-e", "ncmpcpp", NULL };
+static Sp scratchpads[] = {
+	/* name       cmd  */
+	{"sptodo",    spcmd1},
+	{"spcalc",    spcmd2},
+	{"spncmpcpp", spcmd3},
+};
+
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key              function        argument */
 	{ MODKEY,                       XK_p,            spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return,       spawn,          {.v = termcmd } },
+        { MODKEY,			XK_grave,	 togglescratch,	 {.ui = 0} },
+	{ MODKEY|ShiftMask,		XK_grave,	 togglescratch,	 {.ui = 1} },
+	{ MODKEY,	           	XK_n,	         togglescratch,	 {.ui = 2} },
 	{ MODKEY,                       XK_b,            togglebar,      {0} },
 	{ MODKEY,                       XK_j,            focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,            focusstack,     {.i = -1 } },
