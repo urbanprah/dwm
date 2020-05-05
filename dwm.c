@@ -1814,6 +1814,8 @@ propertynotify(XEvent *e)
 		case XA_WM_HINTS:
 			updatewmhints(c);
 			drawbars();
+			if (c->isurgent) /* Urgent border */
+				XSetWindowBorder(dpy, c->win, scheme[SchemeWar][ColFg].pixel);
 			break;
 		}
 		if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]) {
