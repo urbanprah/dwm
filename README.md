@@ -1,4 +1,4 @@
-dwm 
+dwm
 ===
 dwm is an extremely fast, small, and dynamic window manager for X and this is my custom build.
 
@@ -21,6 +21,7 @@ TODO
 * [ ] [issue][fakefs] window wont fill the screen
 * [ ] [issue][fakefs] cant shift focus using j,k
 * [ ] [issue][Steam] borderpx != 1 causes weird window movement
+* [ ] [feature][scratchpad] multiple scratchpads
 * [x] [issue][statuscmd] strip status2d tags from stext
 * [x] [improvement][fakefullscreen] no border with 1 client
 * [x] [issue][systray] icon artifacting

@@ -20,7 +20,7 @@ static const int showbar                 = 1;        /* 0 means no bar */
 static const int topbar                  = 1;        /* 0 means bottom bar */
 static const int barpadding              = 20;       /* 0 means bottom bar */
 static const char dmenufont[]            = "monospace:size=14";
-static const char *fonts[]               = { 
+static const char *fonts[]               = {
         "monospace:size=14",
         "Font Awesome 5 Free:size=14:antialias=true:autohint=true",
         "JoyPixels:size=14:antialias=true:autohint=true",
@@ -109,8 +109,16 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color0, "-nf", color7, "-sb", color1, "-sf", color7, NULL };
 static const char *termcmd[]  = { "st", NULL };
+
+/* TODO: add multiple scratchpad support */
+/*
+static const Scratchpad scratchpads[] = {
+       { "st" , "-t", "todo", "-g", "70x30", "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL },
+       { "st" , "-t", "mixer", "-g", "70x30", "-e", "ncpamixer", NULL },
+}
+*/
 static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
+static const char *scratchpadcmd[] = { "st" , "-t", scratchpadname, "-g", "70x30", "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -145,6 +153,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_v,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[5]} },
 	/* { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} }, */
 	/* { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} }, */
