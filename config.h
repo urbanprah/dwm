@@ -94,7 +94,7 @@ static const Layout layouts[] = {
 typedef struct {
 	const char *name;
 	const void *cmd;
-} Sp;
+} Scratchpad;
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -115,7 +115,7 @@ static const char *termcmd[]  = { "st", NULL };
 const char *spcmd1[] = {"st", "-n", "sptodo",    "-g", "70x30",  "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL };
 const char *spcmd2[] = {"st", "-n", "spcalc",    "-g", "50x20",  "-e", "bc", "-lq", NULL };
 const char *spcmd3[] = {"st", "-n", "spncmpcpp", "-g", "100x30", "-e", "ncmpcpp", NULL };
-static Sp scratchpads[] = {
+static Scratchpad scratchpads[] = {
 	/* name       cmd  */
 	{"sptodo",    spcmd1},
 	{"spcalc",    spcmd2},

@@ -21,4 +21,4 @@ TODO
 * [ ] [feature][shortcut] force kill client
 * [ ] [improvement][fakefs] merge isfullscreen, ignorefakefs
 * [ ] [improvement][focusadjacenttag] dont use gcc builtins: ```__builtin_popcount(int x)```
-* [ ] [issue][Steam] borderpx != 1 causes weird window movement
+* [ ] [improvement][scratchpad] same scratchpad on all monitors
