@@ -10,7 +10,7 @@ PATCHES
 -------
 Base patches can be found in patches/
 * statuscmd + dwmblocks + status2d work together
-* fakefullscren modified with ignorefakefs rule
+* a rule for true fullscreen (ignore fakefullscreen patch)
 * colored emoji support using libxft-bgra
 
 TODO
