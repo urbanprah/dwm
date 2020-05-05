@@ -47,11 +47,6 @@ static char *colors[][3] = {
     [SchemeSel]   = { color1,      color0,      color2  },
     //[SchemeWar]   = { color0,      color1,      color7  },
 };
-//static const unsigned int alphas[][3]      = {
-    /*               fg      bg        border     */
-    //[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
-    //[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
-//};
 
 /* tagging */
 static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -109,22 +104,11 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color0, "-nf", color7, "-sb", color1, "-sf", color7, NULL };
 static const char *termcmd[]  = { "st", NULL };
 
-/* TODO: add multiple scratchpad support */
-/*
-static const Scratchpad scratchpads[] = {
-       { "st" , "-t", "todo", "-g", "70x30", "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL },
-       { "st" , "-t", "mixer", "-g", "70x30", "-e", "ncpamixer", NULL },
-}
-*/
-static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st" , "-t", scratchpadname, "-g", "70x30", "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL };
-
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key              function        argument */
 	{ MODKEY,                       XK_p,            spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return,       spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_grave,        togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,            togglebar,      {0} },
 	{ MODKEY,                       XK_j,            focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,            focusstack,     {.i = -1 } },
