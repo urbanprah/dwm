@@ -56,6 +56,7 @@
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
 #define NUMTAGS			(LENGTH(tags) + LENGTH(scratchpads))
+#define TTAGMASK	       	((1 << LENGTH(tags)) - 1)
 #define TAGMASK			((1 << NUMTAGS) - 1)
 #define SPTAGMASK		(((1 << LENGTH(scratchpads))-1) << LENGTH(tags))
 #define SPTAG(i)		((1 << LENGTH(tags)) << (i))
@@ -2060,7 +2061,7 @@ setclientstate(Client *c, long state)
 void
 tagtoleft(const Arg *arg) {
 	if(selmon->sel != NULL
-	&& __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+	&& popcnt(selmon->tagset[selmon->seltags] & TTAGMASK) == 1
 	&& selmon->tagset[selmon->seltags] > 1) {
 		selmon->sel->tags >>= 1;
 		focus(NULL);
@@ -2071,8 +2072,8 @@ tagtoleft(const Arg *arg) {
 void
 tagtoright(const Arg *arg) {
 	if(selmon->sel != NULL
-	&& __builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
-	&& selmon->tagset[selmon->seltags] & (TAGMASK >> 1)) {
+	&& popcnt(selmon->tagset[selmon->seltags] & TTAGMASK) == 1
+	&& selmon->tagset[selmon->seltags] & (TTAGMASK >> 1)) {
 		selmon->sel->tags <<= 1;
 		focus(NULL);
 		arrange(selmon);
@@ -3012,7 +3013,7 @@ view(const Arg *arg)
 
 void
 viewtoleft(const Arg *arg) {
-	if(__builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
+	if(popcnt(selmon->tagset[selmon->seltags] & TTAGMASK) == 1
 	&& selmon->tagset[selmon->seltags] > 1) {
 		selmon->seltags ^= 1; /* toggle sel tagset */
 		selmon->tagset[selmon->seltags] = selmon->tagset[selmon->seltags ^ 1] >> 1;
@@ -3023,8 +3024,8 @@ viewtoleft(const Arg *arg) {
 
 void
 viewtoright(const Arg *arg) {
-	if(__builtin_popcount(selmon->tagset[selmon->seltags] & TAGMASK) == 1
-	&& selmon->tagset[selmon->seltags] & (TAGMASK >> 1)) {
+	if(popcnt(selmon->tagset[selmon->seltags] & TTAGMASK) == 1
+	&& selmon->tagset[selmon->seltags] & (TTAGMASK >> 1)) {
 		selmon->seltags ^= 1; /* toggle sel tagset */
 		selmon->tagset[selmon->seltags] = selmon->tagset[selmon->seltags ^ 1] << 1;
 		focus(NULL);

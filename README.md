@@ -21,4 +21,6 @@ TODO
 * [ ] [feature][shortcut] force kill client
 * [ ] [improvement][fakefs] merge isfullscreen, ignorefakefs
 * [ ] [improvement][scratchpad] same scratchpad on all monitors
-* [ ] [improvement][focusadjacenttag] dont use gcc builtins: ```__builtin_popcount(int x)```
+* [x] [issue][focusadjacenttag] 3 tags beyond 9?
+* [x] [improvement][focusadjacenttag] dont use gcc builtins: ```__builtin_popcount(int x)```
+
