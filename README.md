@@ -19,6 +19,7 @@ TODO
 * [ ] [config][shortcuts] sxhkd -> config.h
 * [ ] [config][colors] default tag color scheme (colored blocks)
 * [ ] [feature][shortcut] force kill client
+* [ ] [issue] MODKEY|ShiftMask 0 force centers window
 * [ ] [improvement][fakefs] merge isfullscreen, ignorefakefs
-* [ ] [improvement][focusadjacenttag] dont use gcc builtins: ```__builtin_popcount(int x)```
 * [ ] [improvement][scratchpad] same scratchpad on all monitors
+* [ ] [improvement][focusadjacenttag] dont use gcc builtins: ```__builtin_popcount(int x)```
