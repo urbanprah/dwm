@@ -1,26 +1,22 @@
-dwm
-===
+# dwm
 dwm is an extremely fast, small, and dynamic window manager for X and this is my custom build.
 
-INSTALLATION
-------------
-You probably know what you are doing.
-
-PATCHES
+CHANGES
 -------
-Base patches can be found in patches/
-* statuscmd + dwmblocks + status2d work together
+* base **patches** can be found in patches/
+* statuscmd + dwmblocks + status2d compatibility fixes
 * multiple scratchpads
-* a rule for true fullscreen (ignore fakefullscreen patch)
-* colored emoji support using libxft-bgra
+* ignore fakefullscreen patch rule
+* colored emoji support using [libxft-bgra](https://aur.archlinux.org/packages/libxft-bgra/)
+* [tcc](https://www.archlinux.org/packages/community/x86_64/tcc/) as default compiler (it's soo faaast!)
 
-TODO
-====
-* [ ] [config][shortcuts] sxhkd -> config.h
-* [ ] [config][colors] default tag color scheme (colored blocks)
-* [ ] [feature][shortcut] force kill client
-* [ ] [improvement][fakefs] merge isfullscreen, ignorefakefs
-* [ ] [improvement][scratchpad] same scratchpad on all monitors
-* [x] [issue][focusadjacenttag] 3 tags beyond 9?
-* [x] [improvement][focusadjacenttag] dont use gcc builtins: ```__builtin_popcount(int x)```
-
+##### TODO
+* [ ] shortcuts
+* [ ] colors
+* [ ] forcekill client shortcut
+* [ ] merge isfullscreen, truefs
+* [ ] multihead functionality
+    * [ ] scratchpads shared across monitors
+    * [ ] focusadjecenttag patch jump monitors (9->1, 1->9)
+    * [ ] swaptags (MODKEY+XK_Tab)
+    * [ ] swapfocus patch (MODKEY+XK_s)
