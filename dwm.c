@@ -1498,7 +1498,6 @@ loadxrdb()
                         }
                 }
         }
-
         XCloseDisplay(display);
 }
 
@@ -3076,14 +3075,19 @@ systraytomon(Monitor *m) {
 }
 
 void
-xrdb(const Arg *arg)
-{
-  loadxrdb();
-  int i;
-  for (i = 0; i < LENGTH(colors); i++)
+xrdb(const Arg *arg) {
+        loadxrdb();
+        int i;
+        for (i = 0; i < LENGTH(colors); i++)
                 scheme[i] = drw_scm_create(drw, colors[i], 3);
-  focus(NULL);
-  arrange(NULL);
+
+        if(systray) {
+                XWindowChanges wc;
+                XConfigureWindow(dpy, systray->win, CWY, &wc);
+        }
+        updatestatus();
+        focus(NULL);
+        arrange(NULL);
 }
 
 void
