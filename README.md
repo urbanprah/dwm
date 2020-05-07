@@ -20,3 +20,5 @@ CHANGES
     * [ ] focusadjecenttag patch jump monitors (9->1, 1->9)
     * [ ] swaptags (MODKEY+XK_Tab)
     * [ ] swapfocus patch (MODKEY+XK_s)
+* [ ] usage, manpage
+* [ ] requirements
