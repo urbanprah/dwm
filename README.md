@@ -12,7 +12,6 @@ CHANGES
 
 ##### TODO
 * [ ] shortcuts
-* [ ] colors
 * [ ] forcekill client shortcut
 * [ ] merge isfullscreen, truefs
 * [ ] multihead functionality

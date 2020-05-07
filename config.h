@@ -44,8 +44,9 @@ static char color15[]    = "#c5c9c3";
 static char *colors[][3] = {
     /*                fg           bg           border   */
     [SchemeNorm]  = { color7,      color0,      color1  },
-    [SchemeSel]   = { color1,      color0,      color2  },
-    [SchemeWar]   = { color0,      color1,      color7  },
+    [SchemeSel]   = { color0,      color1,      color2  },
+    [SchemeOff]   = { color8,      color0,      color1  },
+    [SchemeWar]   = { color0,      color3,      color7  },
 };
 
 /* tagging */
