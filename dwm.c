@@ -2150,7 +2150,7 @@ void setcfact(const Arg *arg) {
 	f = arg->f + c->cfact;
 	if(arg->f == 0.0)
 		f = 1.0;
-	else if(f < 0.25 || f > 4.0)
+        else if(f < 0.25 || f > 4.0)
 		return;
 	c->cfact = f;
 	arrange(selmon);
@@ -2165,7 +2165,10 @@ setmfact(const Arg *arg)
 	if (!arg || !selmon->lt[selmon->sellt]->arrange)
 		return;
 	f = arg->f < 1.0 ? arg->f + selmon->mfact : arg->f - 1.0;
-	if (f < 0.1 || f > 0.9)
+	if(arg->f == 0.0) {
+		f = mfact;
+                setcfact(arg);
+        } else if (f < 0.1 || f > 0.9)
 		return;
 	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag] = f;
 	arrange(selmon);

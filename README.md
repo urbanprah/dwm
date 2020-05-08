@@ -11,6 +11,7 @@ CHANGES
 * [tcc](https://www.archlinux.org/packages/community/x86_64/tcc/) as default compiler (it's soo faaast!)
 
 ##### TODO
+* [ ] bstackhoriz + cfacts: clients can leave display
 * [ ] shortcuts
 * [ ] forcekill client shortcut
 * [ ] merge isfullscreen, truefs
@@ -21,4 +22,5 @@ CHANGES
     * [ ] swapfocus patch (MODKEY+XK_s)
 * [ ] usage, manpage
 * [ ] requirements
-* [ ] bstackhoriz + cfacts: clients can leave display
+* [ ] layouts.h
+* [ ] adhere to [suckless coding style](https://suckless.org/coding_style/)
