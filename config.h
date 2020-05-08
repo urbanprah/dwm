@@ -57,17 +57,16 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class                        instance   title                     tags mask   truefs   iscentered     isfloating   monitor */
-	{ "Gimp",                       NULL,      NULL,                     0,          0,             0,             1,           -1 },
-	{ "Firefox",                    NULL,      NULL,                     1 << 8,     0,             0,             0,           -1 },
-	{ "ncpamixer",                  NULL,      NULL,                     0,          0,             1,             1,           -1 },
-	{ "transmission-remote-cli",    NULL,      NULL,                     0,          0,             1,             1,           -1 },
-	{ "jetbrains-idea", "jetbrains-idea",    "win0",                     0,          0,             1,             1,           -1 },
-	{ "Microsoft Teams - Preview",  NULL, "Microsoft Teams Notification",0,          0,             0,             1,           -1 },
-	{ "mpv",                        NULL,      NULL,                     0,          1,             0,             0,           -1 },
-	{ NULL,                         "sptodo",  NULL,                     SPTAG(0),   1,             1,             1,           -1 },
-	{ NULL,                         "spcalc",  NULL,                     SPTAG(1),   1,             1,             1,           -1 },
-	{ NULL,                      "spncmpcpp",  NULL,                     SPTAG(2),   1,             1,             1,           -1 },
+	/* class                        instance   title   tags mask   truefs   iscentered     isfloating   monitor */
+	{ "Gimp",                       NULL,      NULL,   0,          0,             0,       1,           -1 },
+	{ "Firefox",                    NULL,      NULL,   1 << 8,     0,             0,       0,           -1 },
+	{ "ncpamixer",                  NULL,      NULL,   0,          0,             1,       1,           -1 },
+	{ "transmission-remote-cli",    NULL,      NULL,   0,          0,             1,       1,           -1 },
+	{ "jetbrains-idea", "jetbrains-idea",    "win0",   0,          0,             1,       1,           -1 },
+	{ "mpv",                        NULL,      NULL,   0,          1,             0,       0,           -1 },
+	{ NULL,                     "sptodo",      NULL,   SPTAG(0),   1,             1,       1,           -1 },
+	{ NULL,                     "spcalc",      NULL,   SPTAG(1),   1,             1,       1,           -1 },
+	{ NULL,                  "spncmpcpp",      NULL,   SPTAG(2),   1,             1,       1,           -1 },
 };
 
 /* layout(s) */
@@ -138,6 +137,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,            incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,            setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,            setmfact,       {.f = +0.05} },
+	{ MODKEY|ShiftMask,             XK_h,            setcfact,       {.f = +0.25} },
+	{ MODKEY|ShiftMask,             XK_l,            setcfact,       {.f = -0.25} },
+	{ MODKEY|ShiftMask,             XK_o,            setcfact,       {.f =  0.00} },
 	{ MODKEY|ShiftMask,             XK_j,            movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,            movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_Return,       zoom,           {0} },
