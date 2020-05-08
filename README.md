@@ -21,3 +21,4 @@ CHANGES
     * [ ] swapfocus patch (MODKEY+XK_s)
 * [ ] usage, manpage
 * [ ] requirements
+* [ ] bstackhoriz + cfacts: clients can leave display

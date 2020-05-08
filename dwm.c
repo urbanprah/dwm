@@ -931,9 +931,13 @@ destroynotify(XEvent *e)
 void
 deck(Monitor *m) {
 	unsigned int i, n, h, mw, my, ns;
+	float mfacts = 0;
 	Client *c;
 
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+		if (n < m->nmaster)
+			mfacts += c->cfact;
+	}
 	if(n == 0)
 		return;
 	if(n == 1){
@@ -952,9 +956,10 @@ deck(Monitor *m) {
 	}
 	for(i = 0, my = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if(i < m->nmaster) {
-			h = (m->wh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
+			h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
 			resize(c, m->wx + m->gappx, m->wy + my, mw - (2*c->bw) - m->gappx*(5-ns)/2, h - (2*c->bw), False);
 			my += HEIGHT(c) + m->gappx;
+			mfacts -= c->cfact;
 		}
 		else
 			resize(c, m->wx + mw + m->gappx/ns, m->wy + m->gappx, m->ww - mw - (2*c->bw) - m->gappx*(5-ns)/2, m->wh - (2*c->bw) - 2*m->gappx, False);
@@ -3163,9 +3168,15 @@ void
 bstack(Monitor *m)
 {
 	unsigned int i, n, w, mh, mx, tx, ns;
+	float mfacts = 0, sfacts = 0;
 	Client *c;
 
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+		if (n < m->nmaster)
+			mfacts += c->cfact;
+		else
+			sfacts += c->cfact;
+	}
 	if (n == 0)
 		return;
 	if(n == 1){
@@ -3184,16 +3195,17 @@ bstack(Monitor *m)
 	}
 	for (i = 0, mx = tx = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			w = (m->ww - mx) / (MIN(n, m->nmaster) - i) - m->gappx;
+			w = (m->ww - mx) * (c->cfact / mfacts) - m->gappx;;
 			resize(c, m->wx + mx, m->wy + m->gappx, w - 2*c->bw, mh - 2*c->bw - m->gappx*(5-ns)/2, 0);
 			mx += WIDTH(c) + m->gappx;
 		} else {
-			w = (m->ww - tx) / (n - i) - m->gappx;
+			w = (m->ww - tx) * (c->cfact / sfacts) - m->gappx;
 			if(m->nmaster == 0)
 				resize(c, m->wx + tx, m->wy + mh, w - (2*c->bw), m->wh - mh - 2*c->bw - m->gappx, False);
 			else
 				resize(c, m->wx + tx, m->wy + mh + m->gappx/ns, w - (2*c->bw), m->wh - mh - 2*c->bw - m->gappx*(5-ns)/2, False);
 			tx += WIDTH(c) + m->gappx;
+			sfacts -= c->cfact;
 		}
 }
 
@@ -3201,9 +3213,15 @@ void
 bstackhoriz(Monitor *m)
 {
 	unsigned int i, n, h, mw, mh, my, ty;
+	float mfacts = 0, sfacts = 0;
 	Client *c;
 
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+		if (n < m->nmaster)
+			mfacts += c->cfact;
+		else
+			sfacts += c->cfact;
+	}
 	if (n == 0)
 		return;
 	if(n == 1){
@@ -3220,13 +3238,15 @@ bstackhoriz(Monitor *m)
 
 	for (i = ty = 0, my = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (mh - my) / (MIN(n, m->nmaster) - i) - m->gappx;
+			h = (mh - my) * (c->cfact / mfacts) - m->gappx;
 			resize(c, m->wx + m->gappx, m->wy + my, mw - 2*(c->bw + m->gappx), h - (2*c->bw), 0);
 			my += HEIGHT(c) + m->gappx;
+			mfacts -= c->cfact;
 		} else {
-			h = (m->wh - mh - ty) / (n - i) - m->gappx;
+			h = (m->wh - mh - ty) * (c->cfact / sfacts) - m->gappx;
 			resize(c, m->wx + m->gappx, m->wy + mh + ty, mw - 2*(c->bw + m->gappx), h - (2*c->bw), 0);
 			ty += HEIGHT(c) + m->gappx;
+			sfacts -= c->cfact;
 		}
 }
 
@@ -3234,10 +3254,18 @@ void
 centeredmaster(Monitor *m)
 {
 	unsigned int i, n, h, mw, mx, my, oty, ety, tw;
+	float mfacts = 0, lfacts = 0, rfacts = 0;
 	Client *c;
 
 	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+		if (n < m->nmaster)
+			mfacts += c->cfact;
+		else if ((n - m->nmaster) % 2)
+			lfacts += c->cfact;
+		else
+			rfacts += c->cfact;
+	}
 
 	if (n == 0)
 		return;
@@ -3271,7 +3299,7 @@ centeredmaster(Monitor *m)
 	if (i < m->nmaster) {
 		/* nmaster clients are stacked vertically, in the center
 		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i);
+		h = (m->wh - my) * (c->cfact / mfacts);
 		if(m->nmaster >= n)
 			resize(c, m->wx + mx + m->gappx, m->wy + my, mw - 2*(c->bw + m->gappx),
 		       h - (2*c->bw) - m->gappx, 0);
@@ -3280,16 +3308,19 @@ centeredmaster(Monitor *m)
 		else
 			resize(c, m->wx + mx + m->gappx, m->wy + my, mw - 2*c->bw - m->gappx*3/2, h - 2*c->bw - m->gappx, 0);
 		my += HEIGHT(c) + m->gappx;
+		mfacts -= c->cfact;
 	} else {
 		/* stack clients are stacked vertically */
 		if ((i - m->nmaster) % 2) {
-			h = (m->wh - ety) / ( (1 + n - i) / 2);
+			h = (m->wh - ety) * (c->cfact / lfacts);
 			resize(c, m->wx + m->gappx, m->wy + ety, tw - (2*c->bw) - m->gappx*3/2, h - 2*c->bw - m->gappx, 0);
 			ety += HEIGHT(c) + m->gappx;
+			lfacts -= c->cfact;
 		} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2);
+			h = (m->wh - oty) * (c->cfact / rfacts);
 			resize(c, m->wx + mx + mw + m->gappx/2, m->wy + oty, tw - (2*c->bw) - m->gappx*3/2, h - 2*c->bw - m->gappx, 0);
 			oty += HEIGHT(c) + m->gappx;
+			rfacts -= c->cfact;
 		}
 	}
 }
@@ -3298,10 +3329,16 @@ void
 centeredfloatingmaster(Monitor *m)
 {
 	unsigned int i, n, w, mh, mw, mx, mxo, my, myo, tx;
+	float mfacts = 0, sfacts = 0;
 	Client *c;
 
 	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+		if (n < m->nmaster)
+			mfacts += c->cfact;
+		else
+			sfacts += c->cfact;
+	}
 	if (n == 0)
 		return;
 	if(n == 1){
@@ -3336,15 +3373,17 @@ centeredfloatingmaster(Monitor *m)
 	if (i < m->nmaster) {
 		/* nmaster clients are stacked horizontally, in the center
 		 * of the screen */
-		w = (mw + mxo - mx) / (MIN(n, m->nmaster) - i) + m->gappx;
+		w = (mw + mxo - mx) * (c->cfact / mfacts) + m->gappx;
 		resize(c, m->wx + mx, m->wy + my + m->gappx, w - 2*(c->bw + m->gappx),
 		       mh - 2*(c->bw + m->gappx), 0);
 		mx += WIDTH(c) + m->gappx;
+		mfacts -= c->cfact;
 	} else {
 		/* stack clients are stacked horizontally */
-		w = (m->ww - tx) / (n - i) + m->gappx;
+		w = (m->ww - tx) * (c->cfact / sfacts) + m->gappx;
 		resize(c, m->wx + tx, m->wy + m->gappx, w - 2*(c->bw + m->gappx),
 		       m->wh - 2*(c->bw + m->gappx), 0);
 		tx += WIDTH(c) + m->gappx;
+		sfacts -= c->cfact;
 	}
 }
