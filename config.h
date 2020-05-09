@@ -89,6 +89,7 @@ static const Layout layouts[] = {
  	{ "[\\]",     dwindle },
 	{ ">M>",      centeredfloatingmaster },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ NULL,       NULL }
 };
 
 typedef struct {
