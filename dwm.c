@@ -798,7 +798,7 @@ configurenotify(XEvent *e)
 			for (m = mons; m; m = m->next) {
 				for (c = m->clients; c; c = c->next)
 					if (c->truefs && c->isfullscreen)
-						resizeclient(c, m->mx, m->my, m->mw, m->mh);
+                                                resizeclient(c, m->mx, m->my, m->mw, m->mh);
 				resizebarwin(m);
 			}
 			focus(NULL);
@@ -1832,8 +1832,8 @@ removesystrayicon(Client *i)
 void
 resize(Client *c, int x, int y, int w, int h, int interact)
 {
-	if (applysizehints(c, &x, &y, &w, &h, interact))
-		resizeclient(c, x, y, w, h);
+        if (applysizehints(c, &x, &y, &w, &h, interact))
+                resizeclient(c, x, y, w, h);
 }
 
 void
@@ -1852,8 +1852,16 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldx = c->x; c->x = wc.x = x;
 	c->oldy = c->y; c->y = wc.y = y;
 	c->oldw = c->w; c->w = wc.width = w;
-	c->oldh = c->h; c->h = wc.height = h;
-	wc.border_width = c->bw;
+        /* FIXME
+           Proper solution to [huge gaps | too many clients] crashing dwm
+           (clients go off screen in y direction)
+         */
+        if (h < selmon->wh) {
+                c->oldh = c->h; c->h = wc.height = h;
+        } else {
+                c->oldh = c->h; wc.height = c->oldh;
+        }
+        wc.border_width = c->bw;
 	if (((nexttiled(c->mon->clients) == c && !nexttiled(c->next))
 	    || &monocle == c->mon->lt[c->mon->sellt]->arrange)
             && !c->isfloating && (!c->truefs || (c->truefs && !c->isfullscreen))) {
