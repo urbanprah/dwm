@@ -289,6 +289,7 @@ static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
+static void unfloatvisible(const Arg *arg);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
 static void updatebarpos(Monitor *m);
@@ -521,7 +522,8 @@ attachstack(Client *c)
 void
 autostart() {
         /* TODO: Read a list from config.h */
-        system("dwmblocks &");
+        system("pidof -s dwmblocks >/dev/null || dwmblocks &");
+        system("pkill -RTMIN+0 dwmblocks");
 }
 
 void
@@ -2558,6 +2560,21 @@ unfocus(Client *c, int setfocus)
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 	}
+}
+
+void
+unfloatvisible(const Arg *arg)
+{
+    Client *c;
+
+    for (c = selmon->clients; c; c = c->next)
+        if (ISVISIBLE(c) && c->isfloating)
+            c->isfloating = c->isfixed;
+
+    if (arg && arg->v)
+        setlayout(arg);
+    else
+        arrange(selmon);
 }
 
 void
