@@ -11,7 +11,9 @@ CHANGES
 * [tcc](https://www.archlinux.org/packages/community/x86_64/tcc/) as default compiler (it's soo faaast!)
 
 ##### TODO
-* [ ] bstackhoriz + cfacts: clients can leave display
+* [ ] 20+ clients crash (client goes off screen)
+* [ ] m->gappx too small crash (client goes below where it should)
+* [ ] autostart: list of applications in config.h
 * [ ] shortcuts
 * [ ] forcekill client shortcut
 * [ ] merge isfullscreen, truefs

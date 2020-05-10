@@ -200,6 +200,7 @@ static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
 static void attachstack(Client *c);
+static void autostart(void);
 static void buttonpress(XEvent *e);
 static void checkotherwm(void);
 static void cleanup(void);
@@ -515,6 +516,12 @@ attachstack(Client *c)
 {
 	c->snext = c->mon->stack;
 	c->mon->stack = c;
+}
+
+void
+autostart() {
+        /* TODO: Read a list from config.h */
+        system("dwmblocks &");
 }
 
 void
@@ -3156,6 +3163,7 @@ main(int argc, char *argv[])
         XrmInitialize();
         loadxrdb();
 	setup();
+        autostart();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
 		die("pledge");
