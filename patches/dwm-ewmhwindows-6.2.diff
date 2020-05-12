@@ -1,0 +1,55 @@
+From bf98bf8d5631cf0a5d7b7bf46cfcfc34244ca05c Mon Sep 17 00:00:00 2001
+From: Jakub Leszczak <szatan@gecc.xyz>
+Date: Sat, 18 Apr 2020 19:09:21 +0200
+Subject: [PATCH] Make EWMH windows float
+
+Make DIALOG, UTILITY, TOOLBAR, SPLASH and MODAL windows float.
+---
+ dwm.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/dwm.c b/dwm.c
+index 4465af1..a192b5e 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -61,8 +61,9 @@
+ enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
+ enum { SchemeNorm, SchemeSel }; /* color schemes */
+ enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
+-       NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+-       NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
++       NetWMFullscreen, NetWMModal, NetActiveWindow, NetWMWindowType,
++       NetWMWindowTypeDialog, NetWMWindowTypeUtility, NetWMWindowTypeToolbar,
++       NetWMWindowTypeSplash, NetClientList, NetLast }; /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+ enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
+        ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+@@ -1559,8 +1560,12 @@ setup(void)
+ 	netatom[NetWMState] = XInternAtom(dpy, "_NET_WM_STATE", False);
+ 	netatom[NetWMCheck] = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", False);
+ 	netatom[NetWMFullscreen] = XInternAtom(dpy, "_NET_WM_STATE_FULLSCREEN", False);
++	netatom[NetWMModal] = XInternAtom(dpy, "_NET_WM_STATE_MODAL", False);
+ 	netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
+ 	netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
++	netatom[NetWMWindowTypeUtility] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_UTILITY", False);
++	netatom[NetWMWindowTypeToolbar] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_TOOLBAR", False);
++	netatom[NetWMWindowTypeSplash] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_SPLASH", False);
+ 	netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
+ 	/* init cursors */
+ 	cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
+@@ -2009,7 +2014,11 @@ updatewindowtype(Client *c)
+ 
+ 	if (state == netatom[NetWMFullscreen])
+ 		setfullscreen(c, 1);
+-	if (wtype == netatom[NetWMWindowTypeDialog])
++	if (wtype == netatom[NetWMWindowTypeDialog] ||
++	    wtype == netatom[NetWMWindowTypeUtility] ||
++	    wtype == netatom[NetWMWindowTypeToolbar] ||
++	    wtype == netatom[NetWMWindowTypeSplash] ||
++	    state == netatom[NetWMModal])
+ 		c->isfloating = 1;
+ }
+ 
+-- 
+2.26.2
+

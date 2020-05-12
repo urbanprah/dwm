@@ -13,6 +13,8 @@ CHANGES
 ##### TODO
 * [ ] autostart: list of applications in config.h
 * [ ] shortcuts
+* [ ] max gaps limit (causes crashes)
+* [ ] dragging floating windows across monitors
 * [ ] forcekill client shortcut
 * [ ] merge isfullscreen, truefs
 * [ ] multihead functionality
