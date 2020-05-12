@@ -4,7 +4,7 @@ dwm is an extremely fast, small, and dynamic window manager for X and this is my
 CHANGES
 -------
 * base **patches** can be found in patches/
-* statuscmd + dwmblocks + status2d compatibility fixes
+* statuscmd + dwmblocks + status2d + systray compatibility fixes
 * multiple scratchpads
 * ignore fakefullscreen patch rule
 * colored emoji support using [libxft-bgra](https://aur.archlinux.org/packages/libxft-bgra/)
@@ -13,8 +13,8 @@ CHANGES
 ##### TODO
 * [ ] autostart: list of applications in config.h
 * [ ] shortcuts
-* [ ] max gaps limit (causes crashes)
-* [ ] dragging floating windows across monitors
+* [ ] proper gap handling with huge gaps
+* [x] dragging floating windows across monitors
 * [ ] forcekill client shortcut
 * [ ] merge isfullscreen, truefs
 * [ ] multihead functionality

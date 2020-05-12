@@ -446,6 +446,7 @@ applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
 		if (*y + *h + 2 * c->bw < 0)
 			*y = 0;
 	} else {
+                // SSS
 		if (*x >= m->wx + m->ww)
 			*x = m->wx + m->ww - WIDTH(c);
 		if (*y >= m->wy + m->wh)
@@ -2158,7 +2159,7 @@ setgaps(const Arg *arg)
 {
 	if ((arg->i == 0) || (selmon->gappx + arg->i < 0))
 		selmon->gappx = 0;
-	else if (!(arg->i > 0 && selmon->gappx > 400))
+	else if (arg->i < 0 || selmon->gappx <= 400)
 		selmon->gappx += arg->i;
 	arrange(selmon);
 }
