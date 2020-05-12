@@ -10,7 +10,6 @@
 
 /* appearance */
 static const unsigned int borderpx       = 4;        /* border pixel of windows */
-static const unsigned int gappx          = 10;       /* gaps between windows */
 static const unsigned int snap           = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;        /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 5;        /* systray spacing */
@@ -74,19 +73,19 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
-#include "fibonacci.c"
-#include "gaplessgrid.c"
+/* #include "fibonacci.c" */
+/* #include "gaplessgrid.c" */
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
         { "TTT",      bstack },
         { "|M|",      centeredmaster },
- 	{ "[@]",      spiral },
-        { "###",      gaplessgrid },
+ 	/* { "[@]",      spiral }, */
+        /* { "###",      gaplessgrid }, */
 	{ "[M]",      monocle },
 	{ "===",      bstackhoriz },
         { "[D]",      deck },
- 	{ "[\\]",     dwindle },
+ 	/* { "[\\]",     dwindle }, */
 	{ ">M>",      centeredfloatingmaster },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL }
@@ -152,9 +151,9 @@ static Key keys[] = {
         { MODKEY|ControlMask|ShiftMask, XK_k,            moveresize,     {.v = (int []){ 0, 0, 0, -50 }}},
         { MODKEY|ControlMask|ShiftMask, XK_l,            moveresize,     {.v = (int []){ 0, 0, 50, 0 }}},
         { MODKEY|ControlMask|ShiftMask, XK_h,            moveresize,     {.v = (int []){ 0, 0, -50, 0 }}},
-        { MODKEY,                       XK_minus,        setgaps,        {.i = -5 } },
-	{ MODKEY,                       XK_equal,        setgaps,        {.i = +5 } },
-	{ MODKEY|ShiftMask,             XK_equal,        setgaps,        {.i = 0  } },
+        /* { MODKEY,                       XK_minus,        setgaps,        {.i = -5 } }, */
+	/* { MODKEY,                       XK_equal,        setgaps,        {.i = +5 } }, */
+	/* { MODKEY|ShiftMask,             XK_equal,        setgaps,        {.i = 0  } }, */
 	{ MODKEY,                       XK_Tab,          view,           {0} },
 	{ MODKEY,                       XK_s,            swapfocus,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_c,            killclient,     {0} },
@@ -174,9 +173,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_comma,        tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period,       tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_F5,           xrdb,           {.v = NULL } },
-	{ MODKEY,                       XK_minus,        setgaps,        {.i = -5 } },
-	{ MODKEY,                       XK_equal,        setgaps,        {.i = +5 } },
-	{ MODKEY|ShiftMask,             XK_equal,        setgaps,        {.i = 0  } },
 	{ MODKEY,                       XK_bracketleft,  viewtoleft,     {0} },
 	{ MODKEY,                       XK_bracketright, viewtoright,    {0} },
 	{ MODKEY|ShiftMask,             XK_bracketleft,  tagtoleft,      {0} },
