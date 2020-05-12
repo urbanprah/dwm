@@ -44,7 +44,7 @@ static char *colors[][3] = {
     /*                fg           bg           border   */
     [SchemeNorm]  = { color7,      color0,      color1  },
     [SchemeSel]   = { color0,      color1,      color2  },
-    [SchemeOff]   = { color8,      color0,      color1  },
+    [SchemeOff]   = { color8,      color0,      color8  },
     [SchemeWar]   = { color0,      color3,      color7  },
 };
 
