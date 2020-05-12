@@ -2158,7 +2158,7 @@ setgaps(const Arg *arg)
 {
 	if ((arg->i == 0) || (selmon->gappx + arg->i < 0))
 		selmon->gappx = 0;
-	else
+	else if (!(arg->i > 0 && selmon->gappx > 400))
 		selmon->gappx += arg->i;
 	arrange(selmon);
 }
@@ -2452,7 +2452,7 @@ tile(Monitor *m)
 		mw = m->nmaster ? m->ww * m->mfact : 0;
 		ns = m->nmaster > 0 ? 2 : 1;
 	}
-	else{
+	else {
 		mw = m->ww - m->gappx;
 		ns = 1;
 	}
