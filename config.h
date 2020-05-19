@@ -67,6 +67,7 @@ static const Rule rules[] = {
 	{ NULL,                     "sptodo",      NULL,   SPTAG(0),   1,             1,       1,           -1 },
 	{ NULL,                     "spcalc",      NULL,   SPTAG(1),   1,             1,       1,           -1 },
 	{ NULL,                  "spncmpcpp",      NULL,   SPTAG(2),   1,             1,       1,           -1 },
+	{ NULL,                     "spterm",      NULL,   SPTAG(3),   1,             1,       1,           -1 },
 };
 
 /* layout(s) */
@@ -124,11 +125,13 @@ static const char *termcmd[]  = { "st", NULL };
 const char *spcmd1[] = {"st", "-n", "sptodo",    "-g", "70x30",  "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL };
 const char *spcmd2[] = {"st", "-n", "spcalc",    "-g", "50x20",  "-e", "bc", "-lq", NULL };
 const char *spcmd3[] = {"st", "-n", "spncmpcpp", "-g", "100x30", "-e", "ncmpcpp", NULL };
+const char *spcmd4[] = {"st", "-n", "spterm",    "-g", "100x30", NULL };
 static Scratchpad scratchpads[] = {
 	/* name       cmd  */
 	{"sptodo",    spcmd1},
 	{"spcalc",    spcmd2},
 	{"spncmpcpp", spcmd3},
+	{"spterm",    spcmd4},
 };
 
 #include "movestack.c"
@@ -139,6 +142,7 @@ static Key keys[] = {
         { MODKEY,			XK_grave,	 togglescratch,	 {.ui = 0} },
 	{ MODKEY|ShiftMask,		XK_grave,	 togglescratch,	 {.ui = 1} },
 	{ MODKEY,	           	XK_n,	         togglescratch,	 {.ui = 2} },
+	{ MODKEY|ControlMask,	        XK_Return,	 togglescratch,	 {.ui = 3} },
 	{ MODKEY,                       XK_b,            togglebar,      {0} },
 	{ MODKEY,                       XK_j,            focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,            focusstack,     {.i = -1 } },
