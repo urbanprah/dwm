@@ -18,7 +18,6 @@ static const int showsystray             = 1;        /* 0 means no systray */
 static const int showbar                 = 1;        /* 0 means no bar */
 static const int topbar                  = 1;        /* 0 means bottom bar */
 static const int barpadding              = 20;       /* 0 means bottom bar */
-static const char dmenufont[]            = "monospace:size=14";
 static const char *fonts[]               = {
         "monospace:size=14",
         "Font Awesome 5 Free:size=14:antialias=true:autohint=true",
@@ -62,6 +61,8 @@ static const Rule rules[] = {
 	{ "ncpamixer",                  NULL,      NULL,   0,          0,             1,       1,           -1 },
 	{ "transmission-remote-cli",    NULL,      NULL,   0,          0,             1,       1,           -1 },
 	{ "jetbrains-idea", "jetbrains-idea",    "win0",   0,          0,             1,       1,           -1 },
+	{ "jetbrains-idea", "jetbrains-idea",    "win0",   0,          0,             1,       1,           -1 },
+        { "Microsoft Teams - Preview", "microsoft teams - preview", "Microsoft Teams Notification", 0, 0, 0, 1 ,-1},
 	{ "mpv",                        NULL,      NULL,   0,          1,             0,       0,           -1 },
 	{ NULL,                     "sptodo",      NULL,   SPTAG(0),   1,             1,       1,           -1 },
 	{ NULL,                     "spcalc",      NULL,   SPTAG(1),   1,             1,       1,           -1 },
@@ -75,26 +76,22 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 
 /* #include "fibonacci.c" */
 /* #include "gaplessgrid.c" */
+enum { TILE, BSTACK, CMASTER, MONOCLE, BSTACKH, DECK, CFMASTER, FLOAT, END };
 static const Layout layouts[] = {
-	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-        { "TTT",      bstack },
-        { "|M|",      centeredmaster },
- 	/* { "[@]",      spiral }, */
-        /* { "###",      gaplessgrid }, */
-	{ "[M]",      monocle },
-	{ "===",      bstackhoriz },
-        { "[D]",      deck },
- 	/* { "[\\]",     dwindle }, */
-	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	/*               symbol      arrange function */
+	[TILE]       = { "[]=",      tile }, /* default */
+        [BSTACK]     = { "TTT",      bstack },
+        [CMASTER]    = { "|M|",      centeredmaster },
+ 	/* [SPIRAL]     = { "[@]",      spiral }, */
+        /* [GRID]       = { "###",      gaplessgrid }, */
+	[MONOCLE]    = { "[M]",      monocle },
+	[BSTACKH]    = { "===",      bstackhoriz },
+        [DECK]       = { "[D]",      deck },
+ 	/* [DWINDLE]    = { "[\\]",     dwindle }, */
+	[CFMASTER]   = { ">M>",      centeredfloatingmaster },
+	[FLOAT]      = { "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL }
 };
-
-typedef struct {
-	const char *name;
-	const void *cmd;
-} Scratchpad;
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -107,9 +104,21 @@ typedef struct {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Scratchpad;
+
+/* static const void* autostart[] = { */
+/*         {"xcompmgr", "&", NULL}, */
+/*         {"nm-applet", "&", NULL}, */
+/*         /1* "pidof -s dwmblocks >/dev/null || dwmblocks &", *1/ */
+/*         /1* "pkill -RTMIN+0 dwmblocks", *1/ */
+/* }; */
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color0, "-nf", color7, "-sb", color1, "-sf", color7, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-h", "50", NULL };
 static const char *termcmd[]  = { "st", NULL };
 
 const char *spcmd1[] = {"st", "-n", "sptodo",    "-g", "70x30",  "-e", "ctodo", "/home/aiden/Documents/todo.txt", NULL };
@@ -157,9 +166,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,          view,           {0} },
 	{ MODKEY,                       XK_s,            swapfocus,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_c,            killclient,     {0} },
-	{ MODKEY,                       XK_t,            setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_v,            setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,            setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_t,            setlayout,      {.v = &layouts[TILE]} },
+	{ MODKEY,                       XK_v,            setlayout,      {.v = &layouts[BSTACK]} },
+	{ MODKEY,                       XK_m,            setlayout,      {.v = &layouts[MONOCLE]} },
 	{ MODKEY|ControlMask,		XK_comma,        cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period,       cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,        setlayout,      {0} },
